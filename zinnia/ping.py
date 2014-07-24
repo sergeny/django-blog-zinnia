@@ -63,7 +63,13 @@ class DirectoryPinger(threading.Thread):
         """Ping an entry to a Directory"""
         entry_url = '%s%s' % (self.ressources.site_url,
                               entry.get_absolute_url())
-        categories = '|'.join([c.title for c in entry.categories.all()])
+        try:
+            categories = '|'.join([c.title for c in entry.categories.all()])
+        except Exception:
+            reply = {'message': 'Cannot retrieve the list of categories.', 
+                    'flerror': True}
+            return reply
+
 
         try:
             reply = self.server.weblogUpdates.extendedPing(
@@ -119,7 +125,7 @@ class ExternalUrlsPinger(threading.Thread):
         if not url_splitted.netloc:
             return False
         return url_splitted.netloc != urlsplit(site_url).netloc
-
+p
     def find_external_urls(self, entry):
         """Find external urls in an entry"""
         soup = BeautifulSoup(entry.html_content)
