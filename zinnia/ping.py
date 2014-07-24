@@ -125,7 +125,7 @@ class ExternalUrlsPinger(threading.Thread):
         if not url_splitted.netloc:
             return False
         return url_splitted.netloc != urlsplit(site_url).netloc
-p
+
     def find_external_urls(self, entry):
         """Find external urls in an entry"""
         soup = BeautifulSoup(entry.html_content)
